@@ -1,17 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  TextInput,
+  Text,
+  SafeAreaView,
+  Image,
+  Pressable,
+  KeyboardAvoidingView,
+} from "react-native";
 
 export default function App() {
+  /* const [activeNewTodo, setActiveNewTodo] = useState(false); */
+  const [listTodo, setListTodo] = useState([]);
+  const [singleTodo, setSingleTodo] = useState("");
+
+  const addTodo = (currTodo) => {
+    setListTodo((oldArray) => [...oldArray, currTodo]);
+  };
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.tamaLogo}
-        source={require("./assets/tamagotchi.png")}
-      />
-      <Text>Tama Do!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Text>{listTodo.length}</Text>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        {/*  <Pressable
+          onPress={() => {
+            setActiveNewTodo(true);
+          }}
+        > */}
+        <Image
+          style={styles.tamaLogo}
+          source={require("./assets/tamagotchi.png")}
+        />
+        {/*  </Pressable> */}
+
+        <TextInput
+          style={styles.tamaInput}
+          onChangeText={setSingleTodo}
+          onSubmitEditing={(() => addTodo(singleTodo))}
+          placeholder="Give me a Task"
+        />
+
+        <StatusBar style="auto" />
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
@@ -23,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   tamaLogo: {
-    width: 300,
-    height: 300,
+    width: 250,
+    height: 250,
   },
 });
